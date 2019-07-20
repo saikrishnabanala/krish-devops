@@ -1,0 +1,7 @@
+#!/bin/bash
+#to change the hostname
+hostname=apache
+echo "$hostname" > /etc/hostname
+pip=$(hostname -i)
+echo "$pip $hostname" >> /etc/hosts
+hostname -F /etc/hostname
