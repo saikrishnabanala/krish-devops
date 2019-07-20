@@ -1,0 +1,55 @@
+create two instances splunk-mas splunk-for
+security groups splunk1 - 1)all tcp 8000 anywhere 2)all tcp 9997 anywhere 
+security groups splunk2 - all tcp 9997 anywhere
+go to browserhttps://www.splunk.com/en_us/download/splunk-enterprise.html
+create splunk account
+user saikrishnabanala pass 9000003167@Bsk
+then download via command line wget copy and paste bash 
+ssh -i splunk.pem ec2-user@splunk-mas public ip
+sudo su
+cd /tmp
+yum install wget unzip vim -y
+wget -O splunk-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.2.0&product=splunk&filename=splunk-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm&wget=true'
+ls -ltr
+it shows  splunk-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm
+rpm -ivh splunk-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm
+cd /opt
+ls -ltr
+it shows splunk
+chmod -R 777 splunk
+cd splunk
+cd bin
+pwd /opt/splunk/bin
+./splunk start --accept-license
+username:admin
+passwd:admin123
+./splunk enable listen 9997
+it ask usrname and passwd
+go to broswer splunk-mas public ip:8000
+it shows splunk page enter credentials
+then go to splunk-for
+ssh -i splunk.pem ec2-user@splunk-for public ip
+sudo su 
+cd /tmp
+yum install wget unzip vim -y
+then go to browser https://www.splunk.com/en_us/download/universal-forwarder.html#tabs/linux
+download linux 64bit and copy wget file
+wget -O splunkforwarder-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.2.0&product=universalforwarder&filename=splunkforwarder-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm&wget=true'
+ls -ltr
+it shows splunk.rpm file
+rpm -ivh splunk.rpm
+cd /opt
+ls -ltr
+it shows splunk forwarder
+chmod -R 777 splunkforwarder
+cd splunkforwarder
+cd bin
+pwd
+/opt/splunkforwarder/bin
+./splunk start --accept-license
+username:admin
+passwd:admin123
+ "./splunk add forward-server splunk-mas public ip:9997",
+ it ask username passwd
+ ./splunk add monitor /var/log/messages -index main -sourcetype MyUFServerLogs
+ then go to splunk page search log files
