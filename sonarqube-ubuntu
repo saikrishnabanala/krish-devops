@@ -6,11 +6,13 @@ unzip sonarqube-5.6.7.zip
 cd sonarqube-5.6.7/
 cd bin/
 cd linux-x86-64/
+/sonar-scanner-3.2.0.1227/conf# vi sonar-scanner.properties(remove comment portnumber)
 vi sonar.sh
 RUN_AS_USER=root
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227.zip
 unzip sonar-scanner-cli-3.2.0.1227.zip
 cd sonar-scanner-3.2.0.1227/
+ mv sonar-scanner-3.2.0.1227/ /opt/sonar_scanner
 cd linux-x86-64/ 
 ls
 ./sonar.sh start
