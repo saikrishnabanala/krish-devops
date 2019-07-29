@@ -1,0 +1,21 @@
+#Git has three phases 1.working 2.stage/index 3.local area
+#create directory
+mkdir project
+cd project
+git init
+#To add git user and email
+git config --global user.name "saikrishnabanala"
+git config --global user.email "saikrishnabonala22@gmail.com"
+#To check the config list
+git config --list
+#To remove user name or email
+git config --global --unset user.name "saikrishnabanla"
+git config --global --unset user.email "saikrishnabonala"
+#Add file
+touch f1(working area untracked red color)
+git add f1 (staging area green color)
+git commit -m "f1"()
+git status
+git log
+git log --oneline
+git show <cid>
