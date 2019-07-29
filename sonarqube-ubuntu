@@ -16,3 +16,27 @@ cd sonar-scanner-3.2.0.1227/
 cd linux-x86-64/ 
 ls
 ./sonar.sh start
+
+
+========================================================
+jenkins
+=======================================================
+Manage-jenkins==manage plugins==search availiable==sonarqube==install
+manage-jenkins==globaltool==sonarqubescanner==name:sonar==path:/opt/sonar_scanner==remove enable option
+              ==maven==addmaven==name:maven==maven==home:/usr/share/maven
+              ==jdk==addjdk==name:java==javahome:/usr/lib/jvm/java-8-openjdk-amd64
+configuration system==sonarqube==Name:sonarqube==url:http://localhost:9000==enable blank
+
+job==freestyle
+git url
+Build
+maven: Name:maven
+Goals: install
+
+exective sonarqube: sonar.projectKey=gameoflife
+sonar.projectName=gameoflife
+sonar.projectVersion=1.0
+sonar.login=admin
+sonar.password=admin
+sonar.host.url=http://18.188.67.22:9000
+sonar.sources=/var/lib/jenkins/workspace/
