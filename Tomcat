@@ -1,4 +1,9 @@
 Installing tomcat in ubuntu 16.04
+============================================
+(How to chnage port number in tomcat 
+ vi /etc/tomcat8/server.xml
+Connector port="8080")
+===========================================
 apt-get update 
 apt-get install tomcat8
 apt-get install tomcat8-docs tomcat8-examples tomcat8-admin
