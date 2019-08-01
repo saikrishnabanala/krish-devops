@@ -1,0 +1,146 @@
+eks
+
+s1:Create iam  role======> eksrole
+s2:Create vpc and security groups(using cloud formation template)
+====>create stack==select s3 template url https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml
+====>create stack name :eks-serv
+====>copy the outputs:
+Key	Value	Description	Export Name
+SecurityGroups	sg-05029357895f9f22c	Security group for the cluster control plane communication with worker nodes	
+VpcId	vpc-0d5e4fa02daaa36db	The VPC Id	
+SubnetIds	subnet-04bb5aa411ba3e384,subnet-0f3bee343d9a067db,subnet-088cb08c6d0244ff3	All subnets in the VPC	
+S3:create eks cluster===nginxcluster==role=>eks==>vpc==>subnetids.(it will take some time to create a cluster)
+
+Install kubectl in machine
+
+curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/kubectl
+curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/kubectl.sha256
+openssl sha1 -sha256 kubectl
+chmod +x ./kubectl
+mkdir $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+kubectl version --short --client
+
+
+Eks for linux 
+
+ curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator
+
+
+curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator.sha256
+
+
+openssl sha1 -sha256 aws-iam-authenticator
+
+
+
+chmod +x ./aws-iam-authenticator
+
+
+cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
+
+
+ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+
+
+aws-iam-authenticator help
+
+aws --version
+
+Cloud formation template:
+	Create stack==s3 sample template==>https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
+stackname===nginxcluster-worker-nodes===>cluster name: nginxcluster===>security group==sg-0120842836080bb09==>node=nodegp1==>nodeimageid:ami-0eeeef929db40543c===>keyname=nginx==>vpcid=eks-serv-vpc==>subnets==>eksserv-1,2,3
+
+
+Outputs:
+Key	Value	Description	Export Name
+NodeInstanceRole	arn:aws:iam::968423163201:role/eks-worknode-NodeInstanceRole-DZ62IAK6JE8K	The node instance role	
+NodeSecurityGroup	sg-07f2f3ac593087239	The security group for the node group	
+
+
+Go to terminal:
+
+Aws configure
+Access key:
+Secret key:
+Region:
+
+aws eks --region us-east-1 update-kubeconfig --name nginxcluster
+
+kubectl get svc
+
+curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
+
+[root@ip-172-31-39-36 ec2-user]# ls
+aws-auth-cm.yaml  aws-iam-authenticator  aws-iam-authenticator.sha256  kubectl  kubectl.sha256
+
+vi aws-auth-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: <ARN of instance role (not instance profile)>(replace work node Arn name)
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+kubectl apply -f aws-auth-cm.yaml
+
+kubectl get svc
+
+kubectl get nodes --watch
+
+kubectl create deployment nginx --image=nginx
+
+kubectl get pods
+
+vi nginx-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+    # the port that this service should serve on 
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+  type: LoadBalancer
+
+vi nginx.yaml
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+
+Kubectl apply -f nginx-service.yaml
+Kubectl apply -f nginx.yaml
+
+Kubectl get services -o wide
+
+Kubectl describe svc nginx 
+
+
