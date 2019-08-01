@@ -1,0 +1,5 @@
+How to change jenkins port number in linux or ubuntu
+vi /etc/defaults/jenkins
+change (HTTP_PORT=9090)
+
+==========================
