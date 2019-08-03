@@ -63,7 +63,42 @@ Upto here apache-tomcat is installed
 
 cd /opt
 install maven
-git clone 
+git clone https://github.com/saikrishnabanala/maven-web-application.git
+ls
+apache-tomcat-9.0.22  apache-tomcat-9.0.22.zip  maven-web-application
+cd maven-web-application
+ls
+Jenkinsfile-backup  Jenkinsfile-backup26th  Jenkinsfile-bakcupmarch15  Jenkinsfile-mt  Jenkinsfile-old  JenkinsfilePaytm  pom.xml  project.yaml  src
+###To install maven ----- if you are copying the link from maven website for installation you need to change the permissions like environmental variables
+install maven
+cd /opt
+wget http://mirrors.estointernet.in/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.zip
+unzip apache-maven
+echo "export M2_HOME=/opt/apache-maven-3.6.0" >> ~/.bash_profile
+echo 'export PATH=$PATH:$M2_HOME/bin' >> ~/.bash_profile
+source ~/.bash_profile
+mvn -version 
+run the mvn clean package command in mavan-web-application
+cd maven-web-application
+ls
+cd target
+ls
+you’ll get mavan-web-application.war
+cd --
+cd /opt
+ls
+cd apache-tomcat
+ls
+cd webapps
+cd --
+cd 
+cd opt/maven-web-application/target
+cp maven-web-application.war /opt/apache-tomcat-9.0.22/webapps
+in /bin folder run the Catalina.sh commands
+sh catalina.sh stop                                                                                                                                                                   
+sh catalina.sh start                                                                                                                                                                 
+
+check the ip address in url – youll get the page --- deployment successful through maven
 
 
 
