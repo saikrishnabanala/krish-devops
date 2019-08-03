@@ -1,10 +1,80 @@
-Installing tomcat in ubuntu 16.04
+Installing tomcat in Redhat8
+Sudo su -    
+ yum install update -y                                                                                                                                                                                      
+     yum install wget zip unzip vim -y                                                                                                                                                                          
+     yum install git -y    
+pre-request                                                                                                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                                                                                                                                         
+yum install java-1.8.0-openjdk-devel -y
+Install tomcat in  /opt
+cd /opt
+ wget http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.22/bin/apache-tomcat-9.0.22.zip
+ unzip apache-tomcat-9.0.22.zip
+ cd apache-tomcat-9.0.22
+ ls
+# bin  BUILDING.txt  conf  CONTRIBUTING.md  lib  LICENSE  logs  NOTICE  README.md  RELEASE-NOTES  RUNNING.txt  temp  webapps  work
+cd bin
+#bootstrap.jar  catalina-tasks.xml  commons-daemon.jar            configtest.sh  digest.sh     setclasspath.bat  shutdown.sh  tomcat-juli.jar       tool-wrapper.sh
+#catalina.bat   ciphers.bat         commons-daemon-native.tar.gz  daemon.sh      makebase.bat  setclasspath.sh   startup.bat  tomcat-native.tar.gz  version.bat
+#catalina.sh    ciphers.sh          configtest.bat                digest.bat     makebase.sh   shutdown.bat      startup.sh   tool-wrapper.bat      version.sh
+sh catalina.sh start
+==================================
+Optional if you not start the tomcat we will change the permission
+(Cmd not found, or permission denied 
+Ll
+Ls -l
+Change file Permissions ----------for .sh files
+chmod u+x *.sh)              
 ============================================
+check the url:8080(open apache tomcat)
+manager app is not working
+pwd
+ /opt/apache-tomcat-9.o.22/bin
+cd --
+cd /opt
+cd apache-tomcat
+cd conf
+vi tomcat-users.xml
+-->
+<user username="admin" password="admin" roles="admin-gui,manager-gui"/>(paste the user password middle of the --> </tomcat user>)
+</tomcat user>
+:wq!
+cd apache-tomcat-9
+cd webapps
+cd manager
+cd META-INF
+cd context.xml
+for manager app access --- you need to comment the context.xml
+vi context.xml
+2nd line <! –-
+3rd line -- >
+<!-- <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+         :wq!
+ Cd ../../..
+cd apache-tomcat-9.0.22
+Cd bin
+Sh Catalina.sh stop
+Check the tomcat url --- not working 403 access denied
+Sh Catalina.sh start
+Now it is working – enter credentials which are provided in tomcat-users.xml
+Check the tomcat url  -- now you are in tomcat web application manager
+Upto here apache-tomcat is installed
+
+cd /opt
+install maven
+git clone 
+
+
+
+
+
+=====================================
 (How to chnage port number in tomcat 
  vi /etc/tomcat8/server.xml
 Connector port="8080")
 ===========================================
-apt-get update 
+apt-get update
 apt-get install tomcat8
 apt-get install tomcat8-docs tomcat8-examples tomcat8-admin
 systemctl restart tomcat8
