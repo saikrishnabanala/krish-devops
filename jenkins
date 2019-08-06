@@ -3,3 +3,6 @@ vi /etc/defaults/jenkins
 change (HTTP_PORT=9090)
 
 ==========================
+Jenkins path /var/lib/jenkins
+===========================
+
