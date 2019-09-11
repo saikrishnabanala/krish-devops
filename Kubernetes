@@ -16,3 +16,16 @@
    16  kubectl get nodes
    17  history
 
+=====Install Kubernetes URL=======
+Install kubernetes 
+prerequest docker :
+
+https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker
+
+install kuiberntes in :
+
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+Kubernetes networks
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
+============================================================================================
