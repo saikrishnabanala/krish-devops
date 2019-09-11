@@ -6,3 +6,15 @@ change (HTTP_PORT=9090)
 Jenkins path /var/lib/jenkins
 ===========================
 
+========================
+Install jenkins in ubuntu
+=============================
+Pre request Java
+Install Jenkins in java
+
+Prerequest java
+
+sudo apt install default-jdk
+
+java -version
+=====================
