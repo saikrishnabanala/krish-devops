@@ -1,0 +1,64 @@
+Install ci/
+Take instance attach to role
+Pre-request
+
+java
+
+wget -P /tmp  -c --header "Cookie: oraclelicense=accept-securebackup-cookie"                 http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+
+rpm -ivh /tmp/jdk-8u131-linux-x64.rpm
+java -version
+awscli
+maven
+jenkins
+=============================================
+Install maven
+
+wget http://mirrors.estointernet.in/apache/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
+unzip apache-maven-3
+mv apache-maven-3 maven
+cd maven
+sudo vi /etc/profile.d/maven.sh
+export M2_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+source /etc/profile.d/maven.sh
+=================================================
+
+INSTALL AWSCLI 
+==================================
+Install Jenkins
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+
+sudo rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+
+sudo yum install jenkins
+
+sudo service jenkins start
+
+sudo chkconfig --add jenkins
+=========================================
+
+After open jenkins
+create cijob
+give to githuburl
+exceute shell
+/opt/maven/bin/mvn clean package
+b='s3://pet-123/'
+/usr/bin/aws s3 cp /var/lib/jenkins/workspace/cijob/target/petclinic.war $b
+build the job
+
+then push the code into s3
+========================
+
+CD
+
+install tomcat
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.24/bin/apache-tomcat-9.0.24.zip
+unzip apache-tomcat-9.0.24.zip
+rm -f apache-tomcat-9.0.24.zip
+mv apache-tomcat-9.0.24 tomcat9
+chmod -R 755 tomcat9
+/opt/tomcat9/bin/startup.sh
+
+passwordless setup
